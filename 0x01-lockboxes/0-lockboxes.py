@@ -1,7 +1,8 @@
 #!/usr/bin/python3
+
 """lockboxes"""
 
-from typing import List
+from typing import List, Set
 
 
 def canUnlockAll(boxes: List[List[int]]) -> bool:
@@ -9,10 +10,9 @@ def canUnlockAll(boxes: List[List[int]]) -> bool:
     This function takes in a list 'boxes' which contains lists of
     integer values
     """
-    def dfs(box: int, unlocked: set) -> None:
+    def dfs(box: int, unlocked: Set[int]) -> None:
         if box in unlocked:
             return
-
         unlocked.add(box)
 
         for key in boxes[box]:
@@ -20,7 +20,5 @@ def canUnlockAll(boxes: List[List[int]]) -> bool:
                 dfs(key, unlocked)
 
     unlocked = set()
-
     dfs(0, unlocked)
-
     return len(unlocked) == len(boxes)
