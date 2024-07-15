@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 """Minimum Operations"""
-def minOperations(n: int) ->int:
+
+
+def minOperations(n: int) -> int:
     """
     This function takes in an int variable 'n'
     and returns an integer value i.e the minimum number of
@@ -20,4 +22,3 @@ def minOperations(n: int) ->int:
                 dp[i] = min(dp[i], dp[j] + i // j)
 
     return dp[n]
-

@@ -49,7 +49,7 @@ def minOperations(n: int) -> int:
 
 
 # print(timeit.timeit(minOperations(12)))
-cProfile.run("minOperations(12)")
+cProfile.run("minOperations(10000000)")
 
 start = time.perf_counter()
 minOperations(10000000)
