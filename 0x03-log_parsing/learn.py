@@ -25,7 +25,7 @@ def write_file():
     for line in sys.stdin:
         if count % 10 == 0:
             print("Multiple of 10:: ", count)
-        print(f'Line {count} ::: {line}')
+        print(f'Line {count} ::: {line.strip()}')
         count += 1
 
 write_file()
