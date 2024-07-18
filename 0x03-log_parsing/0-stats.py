@@ -4,7 +4,6 @@
 import sys
 import re
 import signal
-from tkinter import S
 
 
 LINE_COUNT = 0
@@ -32,29 +31,25 @@ def interrupt_handler(sig, frame):
     print_stats()
     sys.exit(0)
 
-signal.signal(signal.SIGINT, interrupt_handler)
+for line in sys.stdin:
+    line = line.strip()
+    if LINE_COUNT % 10 == 0 and LINE_COUNT != 0:
+        print_stats()
 
-try:
-    for line in sys.stdin:
-        line = line.strip()
-        if LINE_COUNT % 10 == 0 and LINE_COUNT != 0:
-            print_stats()
+    match = re.match(REGEX_PATTERN, line)
 
-        match = re.match(REGEX_PATTERN, line)
+    if match:
+        file_size = int(match.group('size'))
+        status = int(match.group('status'))
 
-        if match:
-            file_size = int(match.group('size'))
-            status = int(match.group('status'))
+        TOTAL_FILE_SIZE += file_size
 
-            TOTAL_FILE_SIZE += file_size
+        if isinstance(status, int):
+            if status in STATUS_CODE_DICT:
+                STATUS_CODE_DICT[status] += 1
+            else:
+                STATUS_CODE_DICT[status] = 1
 
-            if isinstance(status, int):
-                if status in STATUS_CODE_DICT:
-                    STATUS_CODE_DICT[status] += 1
-                else:
-                    STATUS_CODE_DICT[status] = 1
+    LINE_COUNT += 1
 
-        LINE_COUNT += 1
-
-except KeyboardInterrupt:
-    print_stats()
+    signal.signal(signal.SIGINT, interrupt_handler)
