@@ -23,9 +23,9 @@ def write_file():
     count = 0
 
     for line in sys.stdin:
-        count += 1
-        if count % 11 == 0:
+        if count % 10 == 0:
             print("Multiple of 10:: ", count)
         print(f'Line {count} ::: {line}')
+        count += 1
 
 write_file()
