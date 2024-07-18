@@ -23,8 +23,8 @@ REGEX_PATTERN = (
 def print_stats():
     """prints the current statistics"""
     print(f'File size: {TOTAL_FILE_SIZE}')
-    for key, value in sorted(STATUS_CODE_DICT.items()):
-        print(f'{key}: {value}')
+    for k, v in sorted(STATUS_CODE_DICT).items():
+        print(f'{k}: {v}')
 
 def interrupt_handler(sig, frame):
     """keyboardInterrupt handler"""
@@ -33,7 +33,9 @@ def interrupt_handler(sig, frame):
 
 for line in sys.stdin:
     if LINE_COUNT % 10 == 0 and LINE_COUNT != 0:
-        print_stats()
+        print(f'File size: {TOTAL_FILE_SIZE}')
+        for key, value in sorted(STATUS_CODE_DICT.items()):
+            print(f'{key}: {value}')
 
     match = re.match(REGEX_PATTERN, line)
 
