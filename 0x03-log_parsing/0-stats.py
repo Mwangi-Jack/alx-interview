@@ -27,9 +27,6 @@ def interrupt_handler(sig, frame):
     for k, v in STATUS_CODE_DICT.items():
         print(f'{k}: {v}')
 
-    sys.exit(0)
-
-
 for line in sys.stdin:
     if LINE_COUNT % 10 == 0 and LINE_COUNT != 0:
         print(f'File size: {TOTAL_FILE_SIZE}')
