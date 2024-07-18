@@ -4,6 +4,7 @@
 import sys
 import re
 import signal
+from tkinter import S
 
 
 LINE_COUNT = 0
@@ -23,32 +24,37 @@ REGEX_PATTERN = (
 def print_stats():
     """prints current statistics"""
     print(f'File size: {TOTAL_FILE_SIZE}')
-    for key, value in sorted(STATUS_CODE_DICT).items():
-        print(f'{key}: {value}')
+    for key in sorted(STATUS_CODE_DICT):
+        print(f'{key}: {STATUS_CODE_DICT[key]}')
 
 def interrupt_handler(sig, frame):
     """keyboardInterrupt handler"""
     print_stats()
     sys.exit(0)
 
-for line in sys.stdin:
-    if LINE_COUNT % 10 == 0 and LINE_COUNT != 0:
-        print_stats()
+signal.signal(signal.SIGINT, interrupt_handler)
 
-    match = re.match(REGEX_PATTERN, line)
+try:
+    for line in sys.stdin:
+        line = line.strip()
+        if LINE_COUNT % 10 == 0 and LINE_COUNT != 0:
+            print_stats()
 
-    if match:
-        file_size = int(match.group('size'))
-        status = int(match.group('status'))
+        match = re.match(REGEX_PATTERN, line)
 
-        TOTAL_FILE_SIZE += file_size
+        if match:
+            file_size = int(match.group('size'))
+            status = int(match.group('status'))
 
-        if isinstance(status, int):
-            if status in STATUS_CODE_DICT:
-                STATUS_CODE_DICT[status] += 1
-            else:
-                STATUS_CODE_DICT[status] = 1
+            TOTAL_FILE_SIZE += file_size
 
-    LINE_COUNT += 1
+            if isinstance(status, int):
+                if status in STATUS_CODE_DICT:
+                    STATUS_CODE_DICT[status] += 1
+                else:
+                    STATUS_CODE_DICT[status] = 1
 
-    signal.signal(signal.SIGINT, interrupt_handler)
+        LINE_COUNT += 1
+
+except KeyboardInterrupt:
+    print_stats()
