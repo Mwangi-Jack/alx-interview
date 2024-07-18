@@ -31,8 +31,6 @@ def interrupt_handler(sig, frame):
     print_stats()
 
 
-signal.signal(signal.SIGINT, interrupt_handler)
-
 for line in sys.stdin:
     if LINE_COUNT % 10 == 0 and LINE_COUNT != 0:
         print_stats()
@@ -53,3 +51,4 @@ for line in sys.stdin:
 
     LINE_COUNT += 1
 
+    signal.signal(signal.SIGINT, interrupt_handler)
