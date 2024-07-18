@@ -7,8 +7,7 @@ import signal
 
 
 LINE_COUNT = 0
-STATUS_CODE_DICT = {200: 0, 301: 0, 400: 0, 401: 0,
-                    403: 0, 404: 0, 405: 0, 500: 0}
+STATUS_CODE_DICT = {}
 TOTAL_FILE_SIZE = 0
 REGEX_PATTERN = (
     r'(?P<ip>[\d.]+) - \['
@@ -24,13 +23,13 @@ REGEX_PATTERN = (
 def interrupt_handler(sig, frame):
     """keyboardInterrupt handler"""
     print(f'File size: {TOTAL_FILE_SIZE}')
-    for k, v in STATUS_CODE_DICT.items():
+    for k, v in sorted(STATUS_CODE_DICT).items():
         print(f'{k}: {v}')
 
 for line in sys.stdin:
     if LINE_COUNT % 10 == 0 and LINE_COUNT != 0:
         print(f'File size: {TOTAL_FILE_SIZE}')
-        for key, value in STATUS_CODE_DICT.items():
+        for key, value in sorted(STATUS_CODE_DICT.items()):
             print(f'{key}: {value}')
 
     match = re.match(REGEX_PATTERN, line)
@@ -42,7 +41,10 @@ for line in sys.stdin:
         TOTAL_FILE_SIZE += file_size
 
         if isinstance(status, int):
-            STATUS_CODE_DICT[status] += 1
+            if status in STATUS_CODE_DICT:
+                STATUS_CODE_DICT[status] += 1
+            else:
+                STATUS_CODE_DICT[status] = 1
 
     LINE_COUNT += 1
 
