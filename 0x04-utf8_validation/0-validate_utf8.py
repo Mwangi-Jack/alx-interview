@@ -1,4 +1,4 @@
-#!/usr/binpython3
+#!/usr/bin/python3
 """UFT-8 Validation"""
 
 from typing import List
