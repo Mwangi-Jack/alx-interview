@@ -11,7 +11,7 @@ def validUTF8(data: List[int]) -> bool:
     boolean
     """
     for enc in data:
-        if enc > 255:
+        if enc >= 255:
             return False
 
     return True
