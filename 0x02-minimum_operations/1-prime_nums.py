@@ -3,8 +3,6 @@
 
 from typing import List
 
-from numpy import False_
-
 
 def get_prime_nums(n: int) -> List[int]:
     """

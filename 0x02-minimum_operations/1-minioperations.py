@@ -3,7 +3,6 @@
 """Minimum Operations"""
 import time
 from typing import List
-import timeit
 import cProfile
 
 
