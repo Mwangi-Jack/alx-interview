@@ -2,11 +2,8 @@
 
 const axios = require('axios').default;
 
-const movieID = process.argv[2];
-const baseUrl = 'https://swapi-api.alx-tools.com/api';
-
 async function getMovieCharacters () {
-  const response = await axios.get(`${baseUrl}/films/${movieID}`);
+  const response = await axios.get(`https://swapi-api.alx-tools.com/api/films/${process.argv[2]}`);
   const movieData = response.data;
 
   const movieCharacters = movieData.characters;
