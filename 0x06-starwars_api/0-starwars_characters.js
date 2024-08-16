@@ -1,21 +1,38 @@
 #!/usr/bin/node
 
-const request = require('request-promise');
+const request = require('request');
 
-async function getMovieCharacters () {
+const requestPromise = (url) => {
+  return new Promise((resolve, reject) => {
+    request(url, (err, res, body) => {
+      if (err) {
+        reject(err);
+      } else if (res.statusCode !== 200) {
+        reject(new Error(`HTTP ${res.statusCode}`));
+      } else {
+        resolve(body);
+      }
+    });
+  });
+};
+
+const main = async () => {
+  if (!process.argv[2]) {
+    console.error('Please provide a Movie ID as the first argument.');
+    process.exit(1);
+  }
+
   try {
-    const movieUrl = `https://swapi-api.alx-tools.com/api/films/${process.argv[2]}`;
+    const filmBody = await requestPromise(`https://swapi-api.alx-tools.com/api/films/${process.argv[2]}`);
+    const characters = JSON.parse(filmBody).characters;
 
-    const movieResponse = await request({ uri: movieUrl, json: true });
-    const charactersUrl = movieResponse.characters;
-
-    for (const url of charactersUrl) {
-      const characterResponse = await request({ uri: url, json: true });
-      console.log(characterResponse.name);
+    for (const characterUrl of characters) {
+      const characterBody = await requestPromise(characterUrl);
+      const character = JSON.parse(characterBody);
+      console.log(character.name);
     }
   } catch (error) {
-    console.error('Error: ', error.message);
+    console.error('Error:', error.message);
   }
-}
-
-getMovieCharacters();
+};
+main();
