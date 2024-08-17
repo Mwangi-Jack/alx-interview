@@ -5,6 +5,7 @@ import sys
 
 
 def is_safe(board, row, col, N):
+    """This methos finds if it is safe to place a queen on a board"""
     for i in range(col):
         if board[row][i] == 1:
             return False
@@ -18,7 +19,7 @@ def is_safe(board, row, col, N):
 
 
 def solve_nqueens(board, col, N, solutions):
-    """"""
+    """This method finds all the possible solutions"""
     if col >= N:
         solution = []
         for i in range(N):
@@ -39,11 +40,13 @@ def solve_nqueens(board, col, N, solutions):
 
 
 def print_solutions(solutions):
+    """This method prints all the possible solutions"""
     for sol in solutions:
         print(sol)
 
 
 def main():
+    """Main function """
     if len(sys.argv) != 2:
         print("Usage: nqueens N")
         sys.exit(1)
