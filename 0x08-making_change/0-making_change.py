@@ -2,6 +2,7 @@
 """Make Change Problem"""
 from typing import List
 
+
 def makeChange(coins: List[int], total: int) -> int:
     """
     this method takes two arguments 'coins'-
@@ -24,4 +25,3 @@ def makeChange(coins: List[int], total: int) -> int:
         total %= coin
 
     return count if total == 0 else -1
-
